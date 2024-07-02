@@ -16,8 +16,6 @@ from src.utils import AttrDict
 from src.hf_utils import postprocess_text, create_dataset_train, create_dataset_test
 torch.cuda.empty_cache()
 
-trust_remote_code = True
-
 def preprocess_function_new(examples):
     inputs = [prefix + ex[source_lang] for ex in examples["translation"]]
     targets = [ex[target_lang] for ex in examples["translation"]]
@@ -72,14 +70,14 @@ is_source_en = True
 
 if Model_Type == 'mbart':
     model_checkpoint = "facebook/mbart-large-en-{}".format(language) # SPECIFY PRE-TRAINED MODEL HERE. 
-    metric = load_metric("sacrebleu")
+    metric = load_metric("sacrebleu",trust_remote_code = True )
     tokenizer = MBartTokenizer.from_pretrained("facebook/mbart-large-en-ro", src_lang="en_XX", tgt_lang="ro_RO")
 elif Model_Type == 'Marian':
     if is_source_en:
         model_checkpoint = "Helsinki-NLP/opus-mt-en-{}".format(language)
     else:
         model_checkpoint = "Helsinki-NLP/opus-mt-{}-en".format(language)
-    metric = load_metric("sacrebleu")
+    metric = load_metric("sacrebleu", trust_remote_code = True)
     tokenizer = AutoTokenizer.from_pretrained(model_checkpoint, use_fast=False)
 
 if model_checkpoint in ["t5-small", "t5-base", "t5-larg", "t5-3b", "t5-11b"]:
