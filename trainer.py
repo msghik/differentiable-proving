@@ -16,6 +16,8 @@ from src.utils import AttrDict
 from src.hf_utils import postprocess_text, create_dataset_train, create_dataset_test
 torch.cuda.empty_cache()
 
+trust_remote_code = True
+
 def preprocess_function_new(examples):
     inputs = [prefix + ex[source_lang] for ex in examples["translation"]]
     targets = [ex[target_lang] for ex in examples["translation"]]
