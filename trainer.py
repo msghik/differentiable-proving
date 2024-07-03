@@ -104,7 +104,6 @@ model = AutoModelForSeq2SeqLM.from_pretrained(model_checkpoint)
 d = 'prim_ode2_10k' # Saving Folder Name
 batch_size = 8
 args = Seq2SeqTrainingArguments(
-    "test-translation_{}".format(d),
     evaluation_strategy="epoch",
     learning_rate=1e-4,
     per_device_train_batch_size=batch_size,
