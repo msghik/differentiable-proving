@@ -1,5 +1,6 @@
 from transformers import AutoModelForSeq2SeqLM, DataCollatorForSeq2Seq, Seq2SeqTrainingArguments, Seq2SeqTrainer
 from transformers import AutoTokenizer, MBartTokenizer
+from transformers.integrations import WandbCallback
 from src.envs import build_env
 import torch.nn.functional as F
 import datasets
@@ -113,9 +114,10 @@ args = Seq2SeqTrainingArguments(
     num_train_epochs=15,
     predict_with_generate=False,
     fp16=True,
+    output_dir="test-translation_{}".format(d),
+    run_name=f"test-translation-{d}-{language}-{Model_Type}"
 )
 
-args.run_time = './results'
 data_collator = DataCollatorForSeq2Seq(tokenizer, model=model)
 trainer = Seq2SeqTrainer(
     model,
@@ -123,7 +125,10 @@ trainer = Seq2SeqTrainer(
     train_dataset=tokenized_datasets_train,
     eval_dataset=tokenized_datasets_valid,
     data_collator=data_collator,
-    tokenizer=tokenizer
+    tokenizer=tokenizer,
+    callbacks=[WandbCallback(
+    project_name="your-project-name", 
+    name=f"test-translation-{d}-{language}-{Model_Type}")]
 )
 
 
