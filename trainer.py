@@ -115,6 +115,7 @@ args = Seq2SeqTrainingArguments(
     fp16=True,
 )
 
+args.run_time = './results'
 data_collator = DataCollatorForSeq2Seq(tokenizer, model=model)
 trainer = Seq2SeqTrainer(
     model,
