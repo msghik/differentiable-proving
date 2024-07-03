@@ -137,8 +137,7 @@ trainer = Seq2SeqTrainer(
     eval_dataset=tokenized_datasets_valid,
     data_collator=data_collator,
     tokenizer=tokenizer,
-    callbacks=[WandbCallback(
-    project_name="your-project-name", 
+    callbacks=[WandbCallback(, 
     name=f"test-translation-{d}-{language}-{Model_Type}")]
 )
 
