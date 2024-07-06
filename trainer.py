@@ -116,7 +116,7 @@ model = AutoModelForSeq2SeqLM.from_pretrained(model_checkpoint)
 d = 'prim_ode2_10k' # Saving Folder Name
 batch_size = 8
 args = Seq2SeqTrainingArguments(
-    evaluation_strategy="epoch",
+    eval_strategy="epoch",
     learning_rate=1e-4,
     per_device_train_batch_size=batch_size,
     per_device_eval_batch_size=batch_size,
@@ -126,7 +126,8 @@ args = Seq2SeqTrainingArguments(
     predict_with_generate=False,
     fp16=True,
     output_dir="test-translation_{}".format(d),
-    run_name=f"test-translation-{d}-{language}-{Model_Type}"
+    run_name=f"test-translation-{d}-{language}-{Model_Type}",
+    report_to="wandb"
 )
 
 data_collator = DataCollatorForSeq2Seq(tokenizer, model=model)
@@ -137,7 +138,6 @@ trainer = Seq2SeqTrainer(
     eval_dataset=tokenized_datasets_valid,
     data_collator=data_collator,
     tokenizer=tokenizer,
-    callbacks=[WandbCallback()]
 )
 
 trainer.train()
