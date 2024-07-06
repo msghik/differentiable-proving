@@ -137,10 +137,8 @@ trainer = Seq2SeqTrainer(
     eval_dataset=tokenized_datasets_valid,
     data_collator=data_collator,
     tokenizer=tokenizer,
-    callbacks=[WandbCallback( 
-    name=f"test-translation-{d}-{language}-{Model_Type}")]
+    callbacks=[WandbCallback()]
 )
-
 
 trainer.train()
 model_name = 'mbart_prim_ode2_10k_en_ro' # SPECIFY MODEL SAVING NAME HERE.
