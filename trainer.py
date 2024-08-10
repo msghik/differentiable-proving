@@ -43,10 +43,7 @@ def preprocess_function_new(examples):
     return model_inputs
     #---------------------------------------------------------------------------------------------------
     
-if torch.cuda.is_available():
-    device = 'cuda'
-else:
-    device = 'cpu'
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 print(device)
 params = params = AttrDict({
@@ -82,9 +79,9 @@ Model_Type = 'mbart'
 is_source_en = True
 
 if Model_Type == 'mbart':
-    model_checkpoint = "facebook/mbart-large-en-{}".format(language) # SPECIFY PRE-TRAINED MODEL HERE. 
+    model_checkpoint = "facebook/mbart-base-en-{}".format(language) # SPECIFY PRE-TRAINED MODEL HERE. 
     metric = load_metric("sacrebleu",trust_remote_code = True )
-    tokenizer = MBartTokenizer.from_pretrained("facebook/mbart-large-en-ro", src_lang="en_XX", tgt_lang="ro_RO")
+    tokenizer = MBartTokenizer.from_pretrained("facebook/mbart-base-en-ro", src_lang="en_XX", tgt_lang="ro_RO")
 elif Model_Type == 'Marian':
     if is_source_en:
         model_checkpoint = "Helsinki-NLP/opus-mt-en-{}".format(language)
@@ -126,7 +123,7 @@ args = Seq2SeqTrainingArguments(
     predict_with_generate=False,
     fp16=True,
     output_dir="test-translation_{}".format(d),
-    run_name=f"test-translation-{d}-{language}-{Model_Type}",
+    run_name= f'test-translation-{d}-{language}-{Model_Type}', 
     report_to="wandb"
 )
 
