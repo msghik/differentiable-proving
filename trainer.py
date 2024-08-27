@@ -79,9 +79,9 @@ Model_Type = 'mbart'
 is_source_en = True
 
 if Model_Type == 'mbart':
-    model_checkpoint = "facebook/mbart-base-en-{}".format(language) # SPECIFY PRE-TRAINED MODEL HERE. 
+    model_checkpoint = "facebook/mbart-large-en-{}".format(language) # SPECIFY PRE-TRAINED MODEL HERE. 
     metric = load_metric("sacrebleu",trust_remote_code = True )
-    tokenizer = MBartTokenizer.from_pretrained("facebook/mbart-base-en-ro", src_lang="en_XX", tgt_lang="ro_RO")
+    tokenizer = MBartTokenizer.from_pretrained("facebook/mbart-large-en-ro", src_lang="en_XX", tgt_lang="ro_RO")
 elif Model_Type == 'Marian':
     if is_source_en:
         model_checkpoint = "Helsinki-NLP/opus-mt-en-{}".format(language)
