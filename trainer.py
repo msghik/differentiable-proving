@@ -75,7 +75,7 @@ path2 = "data/valid/ode2.valid"    # SPECIFY PATH OF VALIDATION DATA HERE. WE WI
 valid_dataset = create_dataset_test(path=path2, language= language)
 
 """# Tokenizing the Data"""
-Model_Type = 'Marian'
+Model_Type = 'mbart'
 is_source_en = True
 
 if Model_Type == 'mbart':

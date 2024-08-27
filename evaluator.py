@@ -33,10 +33,7 @@ def preprocess_function_new(examples):
     return model_inputs
 
 
-if torch.cuda.is_available():
-    device = 'cuda'
-else:
-    device = 'cpu'
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 params = params = AttrDict({
 
