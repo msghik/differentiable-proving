@@ -1,6 +1,7 @@
 from transformers import AutoModelForSeq2SeqLM, DataCollatorForSeq2Seq, Seq2SeqTrainingArguments, Seq2SeqTrainer
 from transformers import AutoTokenizer, MBartTokenizer
 from transformers.integrations import WandbCallback
+import evaluate
 from src.envs import build_env
 import torch.nn.functional as F
 import datasets
@@ -80,14 +81,14 @@ is_source_en = True
 
 if Model_Type == 'mbart':
     model_checkpoint = "facebook/mbart-large-en-{}".format(language) # SPECIFY PRE-TRAINED MODEL HERE. 
-    metric = load_metric("sacrebleu",trust_remote_code = True )
+    metric = evaluate.load("sacrebleu")
     tokenizer = MBartTokenizer.from_pretrained("facebook/mbart-large-en-ro", src_lang="en_XX", tgt_lang="ro_RO")
 elif Model_Type == 'Marian':
     if is_source_en:
         model_checkpoint = "Helsinki-NLP/opus-mt-en-{}".format(language)
     else:
         model_checkpoint = "Helsinki-NLP/opus-mt-{}-en".format(language)
-    metric = load_metric("sacrebleu", trust_remote_code = True)
+    metric = evaluate.load("sacrebleu")
     tokenizer = AutoTokenizer.from_pretrained(model_checkpoint, use_fast=False)
 
 if model_checkpoint in ["t5-small", "t5-base", "t5-larg", "t5-3b", "t5-11b"]:
@@ -111,7 +112,7 @@ tokenized_datasets_valid = datasetM['validation'].map(preprocess_function_new, b
 
 model = AutoModelForSeq2SeqLM.from_pretrained(model_checkpoint)
 d = 'prim_ode2_10k' # Saving Folder Name
-batch_size = 8
+batch_size = 2
 args = Seq2SeqTrainingArguments(
     eval_strategy="epoch",
     learning_rate=1e-4,
